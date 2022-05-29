@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -57,6 +58,8 @@ main() async {
         NotificationChannel(
             channelGroupKey: 'basic_tests',
             channelKey: 'basic_channel',
+            // soundSource: 'assets/notification.m4a',
+            playSound: false,
             channelName: 'Basic notifications',
             channelDescription: 'Notification channel for basic tests',
             defaultColor: const Color(0xFF9D50DD),
@@ -97,6 +100,8 @@ class _MyHomePageState extends State<MyHomePage> {
   StreamSubscription? _locationSubscription;
   List<Marker> markersList = [];
   List<GeoPoint> positionsList = [];
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
   final loc.Location _locationTracker = loc.Location();
   Marker? marker;
   double rotation = 0.0;
@@ -114,6 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   initState() {
     super.initState();
+    assetsAudioPlayer.open(
+      Audio("assets/notification.mp3"),
+    );
     Future.delayed(Duration.zero).then((value) async {
       await fetchMarkers();
       imageDataBreaker = await getSpeedBreakerMarker();
@@ -176,6 +184,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _showNotificationCustomSound() async {
+    assetsAudioPlayer.play();
     AwesomeNotifications().createNotification(
         content: NotificationContent(
             id: 10,
