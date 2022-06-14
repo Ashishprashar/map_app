@@ -39,7 +39,7 @@ dependencies:
   flutter_local_notifications: ^9.4.0
   awesome_notifications: ^0.6.21
   geolocator: ^8.2.0
-  location: ^4.3.0
+
   firebase_core: ^1.15.0
   cloud_firestore: ^3.1.13
   geocoding: ^2.0.4
@@ -47,8 +47,8 @@ dependencies:
   geocoder: ^0.2.1
   google_maps_webservice: ^0.0.20-nullsafety.5
   uuid: ^3.0.6
-  air_quality: ^2.0.0
   assets_audio_player: ^3.0.3+3
+  location: ^4.4.0
 
 dev_dependencies:
   flutter_test:
