@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -49,6 +50,8 @@ main() async {
             channelGroupKey: 'basic_tests',
             channelKey: 'basic_channel',
             channelName: 'Basic notifications',
+            defaultRingtoneType: null,
+            enableVibration: true,
             channelDescription: 'Notification channel for basic tests',
             defaultColor: const Color(0xFF9D50DD),
             ledColor: Colors.white,
@@ -96,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final positionCollection = FirebaseFirestore.instance.collection("positions");
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
+  final assetsAudioPlayer = AssetsAudioPlayer();
   static CameraPosition initialLocation = const CameraPosition(
     target: LatLng(12.87, 77.54),
     zoom: 14.4746,
@@ -105,6 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   initState() {
     super.initState();
+
     Future.delayed(Duration.zero).then((value) async {
       await fetchMarkers();
       imageDataBreaker = await getSpeedBreakerMarker();
@@ -167,6 +171,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _showNotificationCustomSound() async {
+    assetsAudioPlayer.open(
+      Audio("assets/notification.mp3"),
+    );
     AwesomeNotifications().createNotification(
         content: NotificationContent(
             id: 10,
@@ -293,10 +300,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             markerId: MarkerId(i.toString()),
                             position: LatLng(positionsList[i].latitude,
                                 positionsList[i].longitude),
-                            rotation: rotation,
+                            // rotation: rotation,
+
                             draggable: false,
                             zIndex: 2,
-                            flat: true,
+                            flat: false,
                             anchor: const Offset(0.5, 0.5),
                             icon: BitmapDescriptor.fromBytes(imageDataBreaker))
                       ]
