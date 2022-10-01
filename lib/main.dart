@@ -161,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<Uint8List> getMarker() async {
     ByteData byteData =
-        await DefaultAssetBundle.of(context).load("assets/car_icon.png");
+        await DefaultAssetBundle.of(context).load("assets/bike_icon.png");
     return byteData.buffer.asUint8List();
   }
 
